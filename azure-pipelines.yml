@@ -1,0 +1,25 @@
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+jobs:
+- job: BuildAndPublish
+  displayName: Build and Publish Image
+    
+  pool:
+    vmImage: ubuntu-latest
+  
+  steps:
+  - task: Docker@2
+    displayName: Build Image
+    inputs:
+      command: build
+      dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+      tags: |
+        $(tag)
+        latest
