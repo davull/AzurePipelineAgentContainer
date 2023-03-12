@@ -3,7 +3,7 @@ trigger:
 
 variables:
   - name: Tag
-    value: "$(Year:yyyy)-$(Month)-$(DayOfMonth)"
+    value: "$(Date:yyyy-MM-dd)"
   - name: Repository
     value: "davidullrich/azurepipelineagent"
 
