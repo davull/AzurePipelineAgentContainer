@@ -3,7 +3,7 @@ trigger:
 
 variables:
   - name: Tag
-    value: "$(Build.BuildId)"
+    value: "$(Build.BuildNumber)"
   - name: Repository
     value: "davidullrich/azurepipelineagent"
 
@@ -27,6 +27,8 @@ jobs:
       command: build
       dockerfile: "$(Build.SourcesDirectory)/dockerfile"
       repository: $(Repository)
+      addBaseImageData: false
+      addPipelineData: false
       tags: |
         $(Tag)
         latest
