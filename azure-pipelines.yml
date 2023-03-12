@@ -1,11 +1,11 @@
 trigger:
   - main
 
-resources:
-  - repo: self
-
 variables:
-  tag: "$(Build.BuildId)"
+  - name: Tag
+    value: "$(Year:yyyy)-$(Month)-$(DayOfMonth)"
+  - name: Repository
+    value: "davidullrich/azurepipelineagent"
 
 jobs:
 - job: BuildAndPublish
@@ -16,7 +16,7 @@ jobs:
   
   steps:
   - task: Docker@2
-    displayName: Docker Login
+    displayName: Login
     inputs:
       command: login
       containerRegistry: DockerHubConnection
@@ -26,16 +26,22 @@ jobs:
     inputs:
       command: build
       dockerfile: "$(Build.SourcesDirectory)/dockerfile"
-      repository: "davidullrich/azurepipelineagent"
+      repository: $(Repository)
       tags: |
-        $(tag)
+        $(Tag)
         latest
 
   - task: Docker@2
     displayName: Push Image
     inputs:
       command: push
-      repository: "davidullrich/azurepipelineagent"
+      repository: $(Repository)
       tags: |
-        $(tag)
+        $(Tag)
         latest
+
+  - task: Docker@2
+    displayName: Logout
+    inputs:
+      command: logout
+      containerRegistry: DockerHubConnection
