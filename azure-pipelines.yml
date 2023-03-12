@@ -5,7 +5,7 @@ resources:
   - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: "$(Build.BuildId)"
 
 jobs:
 - job: BuildAndPublish
@@ -16,10 +16,26 @@ jobs:
   
   steps:
   - task: Docker@2
+    displayName: Docker Login
+    inputs:
+      command: login
+      containerRegistry: DockerHubConnection
+
+
+  - task: Docker@2
     displayName: Build Image
     inputs:
       command: build
-      dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+      dockerfile: "$(Build.SourcesDirectory)/dockerfile"
+      tags: |
+        $(tag)
+        latest
+
+  - task: Docker@2
+    displayName: Push Image
+    inputs:
+      command: push
+      repository: "davidullrich/azurepipelineagent"
       tags: |
         $(tag)
         latest
