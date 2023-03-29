@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     apt-transport-https default-jre graphviz libicu-dev \
-    sudo software-properties-common unzip wget \
+    sudo software-properties-common unzip wget zip \
  && rm -rf /var/lib/apt/lists/*
 
 # Install cypress dependencies
