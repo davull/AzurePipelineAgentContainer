@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    apt-transport-https default-jre graphviz libicu-dev \
+    apt-transport-https apt-utils default-jre graphviz libicu-dev \
     sudo build-essential gcc make software-properties-common \
     unzip wget zip \
  && rm -rf /var/lib/apt/lists/*
