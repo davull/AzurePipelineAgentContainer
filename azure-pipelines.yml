@@ -2,10 +2,14 @@ trigger:
   - main
 
 variables:
-  - name: Tag
-    value: "$(Build.BuildNumber)"
+  - name: NodeVersion
+    value: "18"
+  - name: Tags
+    value: |
+      $(Build.BuildNumber)
+      node-$(NodeVersion)
   - name: Repository
-    value: "davidullrich/azurepipelineagent"
+    value: davidullrich/azurepipelineagent
 
 jobs:
 - job: BuildAndPublish
@@ -25,22 +29,19 @@ jobs:
     displayName: Build Image
     inputs:
       command: build
-      dockerfile: "$(Build.SourcesDirectory)/dockerfile"
+      dockerfile: $(Build.SourcesDirectory)/dockerfile
       repository: $(Repository)
       addBaseImageData: false
       addPipelineData: false
-      tags: |
-        $(Tag)
-        latest
+      arguments: --build-arg NODE_VERSION=$(NodeVersion)
+      tags: $(Tags)
 
   - task: Docker@2
     displayName: Push Image
     inputs:
       command: push
       repository: $(Repository)
-      tags: |
-        $(Tag)
-        latest
+      tags: $(Tags)
 
   - task: Docker@2
     displayName: Logout
