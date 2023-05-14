@@ -4,9 +4,9 @@ ARG NODE_VERSION=18
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    apt-transport-https apt-utils default-jre graphviz libicu-dev \
-    sudo build-essential gcc make software-properties-common \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apt-transport-https apt-utils default-jre graphviz gpg-agent \
+    libicu-dev sudo build-essential gcc make software-properties-common \
     unzip wget zip \
  && rm -rf /var/lib/apt/lists/*
 
@@ -25,6 +25,7 @@ RUN add-apt-repository ppa:git-core/ppa -y && \
 # Install Node.js
 RUN wget https://deb.nodesource.com/setup_${NODE_VERSION}.x -O nodesource_setup.sh && \
     bash nodesource_setup.sh && \
+    rm nodesource_setup.sh && \
     apt-get update && \
     apt-get install -y nodejs \
  && rm -rf /var/lib/apt/lists/*
@@ -35,6 +36,14 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/pack
     rm packages-microsoft-prod.deb && \
     apt-get update && \
     apt-get install -y powershell \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install azure cli
+RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
+    bash InstallAzureCLIDeb.sh && \
+    rm InstallAzureCLIDeb.sh && \
+    apt-get update && \
+    apt-get install -y azure-cli \
  && rm -rf /var/lib/apt/lists/*
 
 CMD ["/bin/bash"]
