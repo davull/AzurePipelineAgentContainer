@@ -22,9 +22,17 @@ jobs:
           latest
     
   pool:
-    vmImage: ubuntu-latest
+    name: "Self-hosted"
+  
+  container:
+    image: davidullrich/azurepipelineagent:node-20
 
   steps:
+  - task: DockerInstaller@0
+    displayName: Install Docker CLI
+    inputs:
+      dockerVersion: "24.0.5"
+
   - task: Docker@2
     displayName: Login
     inputs:
