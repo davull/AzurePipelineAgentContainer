@@ -30,6 +30,9 @@ RUN wget https://deb.nodesource.com/setup_${NODE_VERSION}.x -O nodesource_setup.
     apt-get install -y nodejs \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Playwright dependencies
+RUN npx --yes playwright install-deps
+
 # Install Powershell
 RUN wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
