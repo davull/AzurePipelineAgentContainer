@@ -47,7 +47,7 @@ jobs:
       repository: $(Repository)
       addBaseImageData: false
       addPipelineData: false
-      arguments: --build-arg NODE_VERSION=$(NodeVersion)
+      arguments: --no-cache --build-arg NODE_VERSION=$(NodeVersion)
       tags: $(Tags)
 
   - task: Docker@2
