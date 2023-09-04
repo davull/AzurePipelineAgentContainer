@@ -7,8 +7,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https apt-utils default-jre graphviz gpg-agent \
     libicu-dev sudo build-essential gcc make software-properties-common \
-    unzip wget zip \
+    unzip wget zip locales \
  && rm -rf /var/lib/apt/lists/*
+
+# Set locale
+RUN locale-gen "en_US.UTF-8" \
+ && update-locale LC_ALL="en_US.UTF-8"
+
+ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 # Install cypress dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
