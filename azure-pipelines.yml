@@ -20,6 +20,10 @@ jobs:
         Tags: |
           node-$(NodeVersion)
           latest
+      node21:
+        NodeVersion: "21"
+        Tags: |
+          node-$(NodeVersion)
     
   pool:
     name: "Self-hosted"
