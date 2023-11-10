@@ -11,20 +11,16 @@ jobs:
 
   strategy:
     matrix:
-      node18:
-        NodeVersion: "18"
-        Tags: |
-          node-$(NodeVersion)
       node20:
         NodeVersion: "20"
         Tags: |
           node-$(NodeVersion)
-          latest
       node21:
         NodeVersion: "21"
         Tags: |
           node-$(NodeVersion)
-    
+          latest
+  
   pool:
     name: "Self-hosted"
   
