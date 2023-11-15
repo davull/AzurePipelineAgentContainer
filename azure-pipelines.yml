@@ -80,17 +80,22 @@ jobs:
         echo "node -v                               $(node -v)"
         echo "npm -v                                $(npm -v)"
 
-  - task: Docker@2
+  - task: CmdLine@2
     displayName: Build Image
     inputs:
-      command: build
-      dockerfile: $(Build.SourcesDirectory)/dockerfile
-      repository: $(Repository)
-      addBaseImageData: false
-      addPipelineData: false
-      arguments: --no-cache --build-arg NODE_VERSION=$(NodeVersion)
-      tags: $(Tags)
-
+      script: |
+        export FIRSTTAG=$(echo "$(Tags)" | sed -n '1p')
+        
+        docker buildx create --use
+        docker buildx inspect --bootstrap
+        docker buildx build \
+            -f dockerfile \
+            --platform linux/amd64,linux/arm64 \
+            --no-cache \
+            --build-arg NODE_VERSION=$(NodeVersion) \
+            -t $(Repository):$FIRSTTAG .
+      workingDirectory: $(Build.SourcesDirectory)
+        
   - ${{ if eq(variables.ForcePushDockerImage, 'true') }}:
     - task: Docker@2
       displayName: Login
