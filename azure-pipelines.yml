@@ -1,9 +1,27 @@
 trigger:
   - main
 
+parameters:
+  - name: ForcePushDockerImage
+    displayName: Force push docker image
+    type: boolean
+    values:
+      - true
+      - false
+    default: false
+
 variables:
   - name: Repository
     value: davidullrich/azurepipelineagent
+  - name: IsMainBranch
+    value: ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}
+  - name: PushDockerImage
+    value: ${{ 
+        or( 
+          eq(variables.IsMainBranch, 'true'),
+          parameters.ForcePushDockerImage
+        )
+      }}
 
 jobs:
 - job: BuildAndPublish
@@ -44,21 +62,22 @@ jobs:
       arguments: --no-cache --build-arg NODE_VERSION=$(NodeVersion)
       tags: $(Tags)
 
-  - task: Docker@2
-    displayName: Login
-    inputs:
-      command: login
-      containerRegistry: DockerHubConnection
+  - ${{ if eq(variables.ForcePushDockerImage, 'true') }}:
+    - task: Docker@2
+      displayName: Login
+      inputs:
+        command: login
+        containerRegistry: DockerHubConnection
 
-  - task: Docker@2
-    displayName: Push Image
-    inputs:
-      command: push
-      repository: $(Repository)
-      tags: $(Tags)
+    - task: Docker@2
+      displayName: Push Image
+      inputs:
+        command: push
+        repository: $(Repository)
+        tags: $(Tags)
 
-  - task: Docker@2
-    displayName: Logout
-    inputs:
-      command: logout
-      containerRegistry: DockerHubConnection
+    - task: Docker@2
+      displayName: Logout
+      inputs:
+        command: logout
+        containerRegistry: DockerHubConnection
