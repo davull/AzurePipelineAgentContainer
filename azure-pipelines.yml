@@ -50,6 +50,26 @@ jobs:
     displayName: Install Docker CLI
     inputs:
       dockerVersion: "24.0.7"
+  
+  - task: CmdLine@2
+    displayName: Print environment
+    inputs:
+      script: |
+        echo "Build.BuildId                         $(Build.BuildId)"
+        echo "Build.BuildNumber                     $(Build.BuildNumber)"
+        echo "Build.Reason                          $(Build.Reason)"
+        echo "Build.SourceBranch                    $(Build.SourceBranch)"
+        echo "Build.SourceBranchName                $(Build.SourceBranchName)"
+        echo "Build.Repository.ID                   $(Build.Repository.ID)"
+        echo "Build.Repository.Name                 $(Build.Repository.Name)"
+        echo "Build.Repository.LocalPath            $(Build.Repository.LocalPath)"
+        echo "Build.Repository.Uri                  $(Build.Repository.Uri)"
+        echo "-----------------------------------------------------------------------------"
+        echo "docker -v                             $(docker -v)"
+        echo "docker buildx version                 $(docker buildx version)"
+        echo "git -v                                $(git -v)"
+        echo "node -v                               $(node -v)"
+        echo "npm -v                                $(npm -v)"
 
   - task: Docker@2
     displayName: Build Image
