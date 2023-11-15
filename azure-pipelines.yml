@@ -52,6 +52,15 @@ jobs:
       dockerVersion: "24.0.7"
   
   - task: CmdLine@2
+    displayName: Install buildx
+    inputs:
+      script: |
+        mkdir -p $HOME/.docker/cli-plugins
+        cd $HOME/.docker/cli-plugins
+        wget -q https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-amd64 -O docker-buildx
+        chmod +x ~/.docker/cli-plugins/docker-buildx
+  
+  - task: CmdLine@2
     displayName: Print environment
     inputs:
       script: |
