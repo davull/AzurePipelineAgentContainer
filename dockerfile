@@ -39,12 +39,12 @@ RUN mkdir -p /etc/apt/keyrings && \
 RUN npx --yes playwright install-deps
 
 # Install Powershell
-RUN wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    apt-get update && \
-    apt-get install -y powershell \
- && rm -rf /var/lib/apt/lists/*
+# RUN wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+#     dpkg -i packages-microsoft-prod.deb && \
+#     rm packages-microsoft-prod.deb && \
+#     apt-get update && \
+#     apt-get install -y powershell \
+#  && rm -rf /var/lib/apt/lists/*
 
 # Install azure cli
 RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
