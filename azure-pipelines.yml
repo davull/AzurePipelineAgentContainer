@@ -115,3 +115,11 @@ jobs:
       inputs:
         command: logout
         containerRegistry: DockerHubConnection
+
+  - task: CmdLine@2
+    condition: always()
+    displayName: Cleanup
+    inputs:
+      script: |
+        docker buildx stop
+        docker buildx rm --all-inactive --force
