@@ -86,8 +86,12 @@ jobs:
       script: |
         export FIRSTTAG=$(echo "$(Tags)" | sed -n '1p')
         
-        docker buildx create --use
+        docker buildx create --use \
+            --driver-opt network=host \
+            --buildkitd-flags '--allow-insecure-entitlement network.host'
+
         docker buildx inspect --bootstrap
+        
         docker buildx build \
             -f dockerfile \
             --platform linux/amd64,linux/arm64 \
