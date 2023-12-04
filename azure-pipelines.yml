@@ -31,13 +31,10 @@ jobs:
     matrix:
       node20:
         NodeVersion: "20"
-        Tags: |
-          node-$(NodeVersion)
+        Tag: node-$(NodeVersion)
       node21:
         NodeVersion: "21"
-        Tags: |
-          node-$(NodeVersion)
-          latest
+        Tag: latest
   
   pool:
     name: "Self-hosted"
@@ -81,25 +78,25 @@ jobs:
         echo "npm -v                                $(npm -v)"
 
   - task: CmdLine@2
-    displayName: Build Image
+    displayName: Create buildx environment
     inputs:
       script: |
-        export FIRSTTAG=$(echo "$(Tags)" | sed -n '1p')
-        
-        docker buildx create --use \
-            --driver-opt network=host \
-            --buildkitd-flags '--allow-insecure-entitlement network.host'
-
+        docker buildx create --use --driver-opt network=host
         docker buildx inspect --bootstrap
-        
-        docker buildx build \
-            -f dockerfile \
-            --platform linux/amd64,linux/arm64 \
-            --no-cache \
-            --build-arg NODE_VERSION=$(NodeVersion) \
-            -t $(Repository):$FIRSTTAG .
-      workingDirectory: $(Build.SourcesDirectory)
-        
+
+  - ${{ if eq(variables.ForcePushDockerImage, 'false') }}:
+    - task: CmdLine@2
+      displayName: Build Image
+      inputs:
+        script: |
+          docker buildx build \
+              -f dockerfile \
+              --platform linux/amd64,linux/arm64 \
+              --no-cache \
+              --build-arg NODE_VERSION=$(NodeVersion) \
+              -t $(Repository):$(Tag) .
+        workingDirectory: $(Build.SourcesDirectory)
+
   - ${{ if eq(variables.ForcePushDockerImage, 'true') }}:
     - task: Docker@2
       displayName: Login
@@ -107,12 +104,17 @@ jobs:
         command: login
         containerRegistry: DockerHubConnection
 
-    - task: Docker@2
-      displayName: Push Image
+    - task: CmdLine@2
+      displayName: Build and Push Image
       inputs:
-        command: push
-        repository: $(Repository)
-        tags: $(Tags)
+        script: |
+          docker buildx build \
+            -f dockerfile \
+            --platform linux/amd64,linux/arm64 \
+            --no-cache \
+            --build-arg NODE_VERSION=$(NodeVersion) \
+            -t $(Repository):$(Tag) \
+            --output=type=registry .
 
     - task: Docker@2
       condition: always()
