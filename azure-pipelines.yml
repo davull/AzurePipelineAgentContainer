@@ -120,6 +120,7 @@ jobs:
             --build-arg NODE_VERSION=$(NodeVersion) \
             -t $(Repository):$(Tag) \
             --output=type=registry .
+        workingDirectory: $(Build.SourcesDirectory)
 
     - task: Docker@2
       condition: always()
