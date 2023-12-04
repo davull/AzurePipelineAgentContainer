@@ -71,6 +71,11 @@ jobs:
         echo "Build.Repository.LocalPath            $(Build.Repository.LocalPath)"
         echo "Build.Repository.Uri                  $(Build.Repository.Uri)"
         echo "-----------------------------------------------------------------------------"
+        echo "parameters.ForcePushDockerImage       ${{ parameters.ForcePushDockerImage }}"
+        echo "variables.Repository                  $(Repository)"
+        echo "variables.IsMainBranch                $(IsMainBranch)"
+        echo "variables.PushDockerImage             $(PushDockerImage)"
+        echo "-----------------------------------------------------------------------------"
         echo "docker -v                             $(docker -v)"
         echo "docker buildx version                 $(docker buildx version)"
         echo "git -v                                $(git -v)"
@@ -84,7 +89,7 @@ jobs:
         docker buildx create --use --driver-opt network=host
         docker buildx inspect --bootstrap
 
-  - ${{ if eq(variables.ForcePushDockerImage, 'false') }}:
+  - ${{ if eq(variables.PushDockerImage, 'false') }}:
     - task: CmdLine@2
       displayName: Build Image
       inputs:
@@ -97,7 +102,7 @@ jobs:
               -t $(Repository):$(Tag) .
         workingDirectory: $(Build.SourcesDirectory)
 
-  - ${{ if eq(variables.ForcePushDockerImage, 'true') }}:
+  - ${{ if eq(variables.PushDockerImage, 'true') }}:
     - task: Docker@2
       displayName: Login
       inputs:
