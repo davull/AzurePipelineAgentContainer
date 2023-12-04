@@ -114,12 +114,12 @@ jobs:
       inputs:
         script: |
           docker buildx build \
-            -f dockerfile \
-            --platform linux/amd64,linux/arm64 \
-            --no-cache \
-            --build-arg NODE_VERSION=$(NodeVersion) \
-            -t $(Repository):$(Tag) \
-            --output=type=registry .
+              -f dockerfile \
+              --platform linux/amd64,linux/arm64 \
+              --no-cache \
+              --build-arg NODE_VERSION=$(NodeVersion) \
+              -t $(Repository):$(Tag) \
+              --output=type=registry .
         workingDirectory: $(Build.SourcesDirectory)
 
     - task: Docker@2
