@@ -115,6 +115,7 @@ jobs:
         tags: $(Tags)
 
     - task: Docker@2
+      condition: always()
       displayName: Logout
       inputs:
         command: logout
