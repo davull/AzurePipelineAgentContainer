@@ -53,8 +53,6 @@ jobs:
     inputs:
       command: login
       containerRegistry: DockerHubConnection
-      addBaseImageData: false
-      addPipelineData: false
 
   - task: CmdLine@2
     displayName: Install buildx
