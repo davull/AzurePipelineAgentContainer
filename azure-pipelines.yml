@@ -103,11 +103,13 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)
 
   - ${{ if eq(variables.PushDockerImage, 'true') }}:
-    - task: Docker@2
+    - task: CmdLine@2
       displayName: Login
       inputs:
-        command: login
-        containerRegistry: DockerHubConnection
+        script: echo $(DOCKER_PASSWORD) | docker login --username $(DOCKER_USERNAME) --password-stdin
+      env:
+        DOCKER_USERNAME: $(DOCKER_USERNAME)
+        DOCKER_PASSWORD: $(DOCKER_PASSWORD)
 
     - task: CmdLine@2
       displayName: Build and Push Image
@@ -122,12 +124,11 @@ jobs:
               --output=type=registry .
         workingDirectory: $(Build.SourcesDirectory)
 
-    - task: Docker@2
+    - task: CmdLine@2
       condition: always()
       displayName: Logout
       inputs:
-        command: logout
-        containerRegistry: DockerHubConnection
+        script: docker logout
 
   - task: CmdLine@2
     condition: always()
