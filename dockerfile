@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https apt-utils default-jre graphviz gpg-agent \
     libicu-dev sudo build-essential gcc make software-properties-common \
-    unzip wget zip locales \
+    unzip wget zip locales mysql-client iputils-ping telnet \
  && rm -rf /var/lib/apt/lists/*
 
 # Set locale
@@ -46,4 +46,9 @@ RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
     apt-get install -y azure-cli \
  && rm -rf /var/lib/apt/lists/*
 
+# Install docker compose
+RUN curl -L "https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+    chmod +x /usr/local/bin/docker-compose && \
+    docker-compose --version
+        
 CMD ["/bin/bash"]
