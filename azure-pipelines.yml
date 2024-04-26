@@ -35,6 +35,9 @@ jobs:
       node21:
         NodeVersion: "21"
         Tag: latest
+      node22:
+        NodeVersion: "22"
+        Tag: node-$(NodeVersion)
   
   pool:
     name: "Self-hosted"
