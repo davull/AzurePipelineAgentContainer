@@ -1,3 +1,11 @@
+schedules:
+  - cron: "0 3 * * SAT"
+    displayName: "Weekly build"
+    branches:
+      include:
+        - main
+    always: true
+
 trigger:
   - main
 
