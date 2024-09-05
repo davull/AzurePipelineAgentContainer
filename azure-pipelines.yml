@@ -51,7 +51,7 @@ jobs:
     name: "Self-hosted"
   
   container:
-    image: davidullrich/azurepipelineagent:latest
+    image: davidullrich/azurepipelineagent:node-22
 
   steps:
   - task: DockerInstaller@0
