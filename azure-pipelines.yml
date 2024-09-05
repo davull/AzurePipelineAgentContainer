@@ -57,7 +57,7 @@ jobs:
   - task: DockerInstaller@0
     displayName: Install Docker CLI
     inputs:
-      dockerVersion: "24.0.7"
+      dockerVersion: "27.2.0"
   
   - task: CmdLine@2
     displayName: Install buildx
