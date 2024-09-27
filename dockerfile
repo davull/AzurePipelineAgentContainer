@@ -47,7 +47,7 @@ RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
-RUN wget -q "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
+RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
         
 CMD ["/bin/bash"]
