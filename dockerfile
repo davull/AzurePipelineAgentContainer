@@ -65,4 +65,9 @@ RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dotnet-sdk-8.0 \
  && rm -rf /var/lib/apt/lists/*
+
+# Install powershell core
+RUN dotnet tool install --global PowerShell && \
+    ln -s /root/.dotnet/tools/pwsh /usr/local/bin/pwsh
+
 CMD ["/bin/bash"]
