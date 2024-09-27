@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ARG NODE_VERSION=18
+ARG NODE_VERSION=22
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
