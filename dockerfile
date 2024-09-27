@@ -41,13 +41,20 @@ RUN npx --yes playwright install-deps
 # Install azure cli
 RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
     bash InstallAzureCLIDeb.sh && \
-    rm InstallAzureCLIDeb.sh && \
-    apt-get update && \
-    apt-get install -y azure-cli \
+    rm InstallAzureCLIDeb.sh \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
 RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
-        
+
+# Install dotnet
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install powershell core
+RUN dotnet tool install --global PowerShell && \
+    ln -s /root/.dotnet/tools/pwsh /usr/local/bin/pwsh
+
 CMD ["/bin/bash"]
