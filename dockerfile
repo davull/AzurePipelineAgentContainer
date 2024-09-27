@@ -41,9 +41,7 @@ RUN npx --yes playwright install-deps
 # Install azure cli
 RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
     bash InstallAzureCLIDeb.sh && \
-    rm InstallAzureCLIDeb.sh && \
-    apt-get update && \
-    apt-get install -y azure-cli \
+    rm InstallAzureCLIDeb.sh \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
