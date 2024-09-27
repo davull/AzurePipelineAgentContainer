@@ -1,6 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-ARG NODE_VERSION=18
+ARG NODE_VERSION=22
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
@@ -18,8 +18,8 @@ ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 # Install cypress dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 \
-    libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
+    libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev \
+    libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb \
  && rm -rf /var/lib/apt/lists/*
 
 # Install latest git
@@ -47,7 +47,7 @@ RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
-RUN wget -q "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
+RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
         
 CMD ["/bin/bash"]

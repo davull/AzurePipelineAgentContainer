@@ -40,9 +40,6 @@ jobs:
       node20:
         NodeVersion: "20"
         Tag: node-$(NodeVersion)
-      node21:
-        NodeVersion: "21"
-        Tag: latest
       node22:
         NodeVersion: "22"
         Tag: node-$(NodeVersion)
