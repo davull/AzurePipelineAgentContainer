@@ -60,5 +60,9 @@ RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
 # Install docker compose
 RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
-        
+
+# Install dotnet
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0 \
+ && rm -rf /var/lib/apt/lists/*
 CMD ["/bin/bash"]
