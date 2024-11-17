@@ -45,7 +45,7 @@ jobs:
         Tag: node-$(NodeVersion)
   
   pool:
-    name: "Self-hosted"
+    vmImage: 'ubuntu-latest'
   
   container:
     image: davidullrich/azurepipelineagent:node-22
