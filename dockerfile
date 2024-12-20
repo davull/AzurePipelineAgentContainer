@@ -16,13 +16,17 @@ RUN locale-gen "en_US.UTF-8" \
 
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
+# Update packages
+RUN apt-get update && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install cypress dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev \
     libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb \
  && rm -rf /var/lib/apt/lists/*
 
-# Install latest git
+# Install git
 RUN add-apt-repository ppa:git-core/ppa -y && \
     apt-get update && \
     apt-get install -y git \
