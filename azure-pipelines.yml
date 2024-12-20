@@ -51,7 +51,7 @@ jobs:
   - task: DockerInstaller@0
     displayName: Install Docker CLI
     inputs:
-      dockerVersion: "27.2.0"
+      dockerVersion: "27.4.1"
   
   - task: CmdLine@2
     displayName: Install buildx
@@ -59,7 +59,7 @@ jobs:
       script: |
         mkdir -p $HOME/.docker/cli-plugins
         cd $HOME/.docker/cli-plugins
-        wget -q https://github.com/docker/buildx/releases/download/v0.16.2/buildx-v0.16.2.linux-$(dpkg --print-architecture) -O docker-buildx
+        wget -q https://github.com/docker/buildx/releases/download/v0.19.3/buildx-v0.19.3.linux-$(dpkg --print-architecture) -O docker-buildx
         chmod +x ~/.docker/cli-plugins/docker-buildx
   
   - task: CmdLine@2
@@ -103,6 +103,7 @@ jobs:
               -f dockerfile \
               --platform linux/amd64,linux/arm64 \
               --no-cache \
+              --progress=plain \
               --build-arg NODE_VERSION=$(NodeVersion) \
               -t $(Repository):$(Tag) .
         workingDirectory: $(Build.SourcesDirectory)
