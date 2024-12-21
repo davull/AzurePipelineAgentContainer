@@ -16,8 +16,8 @@ RUN apt-get update && apt-get upgrade -y --no-install-recommends \
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-transport-https apt-utils default-jre graphviz gpg-agent \
-    libicu-dev sudo build-essential gcc make software-properties-common \
+    apt-transport-https default-jre graphviz gpg-agent \
+    libicu-dev sudo build-essential software-properties-common \
     unzip wget zip locales mysql-client iputils-ping telnet \
  && rm -rf /var/lib/apt/lists/*
 
