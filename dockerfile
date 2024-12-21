@@ -8,7 +8,7 @@ RUN ls -la
 
 # Reconfigure dpkg
 RUN dpkg --configure -a \
- && apt install -f
+ && apt install --fix-broken
 
 # Update packages
 RUN apt-get update && apt-get upgrade -y --no-install-recommends \
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install git
 RUN add-apt-repository ppa:git-core/ppa -y && \
     apt-get update && \
-    apt-get install -y git \
+    apt-get install -y --no-install-recommends git \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js
@@ -44,7 +44,7 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -q -O - https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_VERSION}.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
     apt-get update && \
-    apt-get install -y nodejs
+    apt-get install -y --no-install-recommends nodejs
 
 # Install Playwright dependencies
 RUN npx --yes playwright install-deps
@@ -54,7 +54,7 @@ RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
     bash InstallAzureCLIDeb.sh && \
     rm InstallAzureCLIDeb.sh && \
     apt-get update && \
-    apt-get install -y azure-cli \
+    apt-get install -y --no-install-recommends azure-cli \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
