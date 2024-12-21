@@ -65,8 +65,4 @@ RUN add-apt-repository ppa:dotnet/backports -y \
     dotnet-sdk-8.0 dotnet-sdk-9.0 \
  && rm -rf /var/lib/apt/lists/*
 
-# Install powershell core
-RUN dotnet tool install --global PowerShell && \
-    ln -s /root/.dotnet/tools/pwsh /usr/local/bin/pwsh
-
 CMD ["/bin/bash"]
