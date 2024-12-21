@@ -3,6 +3,13 @@ FROM ubuntu:24.04
 ARG NODE_VERSION=22
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Invalidate cache
+RUN ls -la
+
+# Update packages
+RUN apt-get update && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https apt-utils default-jre graphviz gpg-agent \
@@ -15,10 +22,6 @@ RUN locale-gen "en_US.UTF-8" \
  && update-locale LC_ALL="en_US.UTF-8"
 
 ENV LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-# Update packages
-RUN apt-get update && apt-get upgrade -y --no-install-recommends \
- && rm -rf /var/lib/apt/lists/*
 
 # Install cypress dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
