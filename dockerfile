@@ -6,6 +6,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Invalidate cache
 RUN ls -la
 
+# Reconfigure dpkg
+RUN dpkg --configure -a \
+ && apt install -f
+
 # Update packages
 RUN apt-get update && apt-get upgrade -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
