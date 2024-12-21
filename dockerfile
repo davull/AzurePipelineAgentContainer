@@ -60,8 +60,9 @@ RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-
     chmod +x /usr/local/bin/docker-compose
 
 # Install dotnet
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    dotnet-sdk-8.0 \
+RUN add-apt-repository ppa:dotnet/backports -y \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0 dotnet-sdk-9.0 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install powershell core
