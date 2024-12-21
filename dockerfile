@@ -14,6 +14,11 @@ RUN dpkg --configure -a \
 RUN apt-get update && apt-get upgrade -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
+# Install ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-transport-https default-jre graphviz gpg-agent \
