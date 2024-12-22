@@ -34,6 +34,7 @@ variables:
 jobs:
 - job: BuildAndPublish
   displayName: Build and Publish
+  timeoutInMinutes: 120
 
   strategy:
     matrix:
