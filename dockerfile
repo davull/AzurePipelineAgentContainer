@@ -3,9 +3,6 @@ FROM ubuntu:24.04
 ARG NODE_VERSION=22
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Invalidate cache
-RUN ls -la
-
 # Reconfigure dpkg
 RUN dpkg --configure -a \
  && apt install --fix-broken
