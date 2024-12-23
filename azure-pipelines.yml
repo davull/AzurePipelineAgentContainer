@@ -38,6 +38,9 @@ jobs:
 
   strategy:
     matrix:
+      node20:
+        NodeVersion: "20"
+        Tag: node-$(NodeVersion)
       node22:
         NodeVersion: "22"
         Tag: node-$(NodeVersion)
