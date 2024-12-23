@@ -92,6 +92,7 @@ jobs:
     displayName: Create buildx environment
     inputs:
       script: |
+        docker run --privileged --rm tonistiigi/binfmt --install all
         docker buildx create --use --driver-opt network=host
         docker buildx inspect --bootstrap
 
