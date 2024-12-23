@@ -3,9 +3,6 @@ FROM ubuntu:24.04
 ARG NODE_VERSION=22
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Invalidate cache
-RUN ls -la
-
 # Reconfigure dpkg
 RUN dpkg --configure -a \
  && apt install --fix-broken
@@ -52,13 +49,17 @@ RUN npx --yes playwright install-deps
 # Install azure cli
 RUN wget https://aka.ms/InstallAzureCLIDeb -O InstallAzureCLIDeb.sh && \
     bash InstallAzureCLIDeb.sh && \
-    rm InstallAzureCLIDeb.sh && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends azure-cli \
+    rm InstallAzureCLIDeb.sh \
  && rm -rf /var/lib/apt/lists/*
 
 # Install docker compose
 RUN wget -q "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
-        
+
+# Install dotnet
+RUN add-apt-repository ppa:dotnet/backports -y \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0 dotnet-sdk-9.0 \
+ && rm -rf /var/lib/apt/lists/*
+
 CMD ["/bin/bash"]
