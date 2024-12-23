@@ -93,8 +93,8 @@ jobs:
     inputs:
       script: |
         docker run --privileged --rm tonistiigi/binfmt --install all
-        docker buildx create --use --driver-opt network=host
-        docker buildx inspect --bootstrap
+        docker buildx create --use --bootstrap --driver-opt="network=host,image=moby/buildkit:rootless"
+        docker buildx inspect
 
   - ${{ if eq(variables.PushDockerImage, 'false') }}:
     - task: CmdLine@2
